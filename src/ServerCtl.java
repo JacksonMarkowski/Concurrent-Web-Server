@@ -4,6 +4,8 @@ public class ServerCtl {
 
     private boolean stopCtl = false;
 
+    private SingleThreadServer s;
+
     public ServerCtl() {
 
     }
@@ -25,13 +27,16 @@ public class ServerCtl {
         if (input.equals("quit") || input.equals("q")) {
             stopCtl = true;
         } else if (input.equals("single start")) {
-            //ToDo: start up SingleThreadServer
+            s = new SingleThreadServer();
+            new Thread(s).start();
         } else if (input.equals("multi start")) {
             //ToDo: start up multithreaded server
         } else if (input.equals("pool start")) {
             //ToDo: start up thread pool server
         } else if (input.equals("h")) {
             System.out.println("Usage: (single/multi/pool) (start/quit)");
+        } else if (input.equals("stop")) {
+            s.setIsRunning(false);
         } else {
             System.out.println("ctl: type h for help");
         }
