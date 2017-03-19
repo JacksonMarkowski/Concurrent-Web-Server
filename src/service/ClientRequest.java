@@ -1,4 +1,4 @@
-package request;
+package service;
 
 import http.HttpMethod;
 
@@ -18,10 +18,10 @@ public class ClientRequest {
     }
 
     /**
-     * Parses the input from a request.  The input should have an initial
-     * request line, and can have optional header lines and content body
+     * Parses the input from a service.  The input should have an initial
+     * service line, and can have optional header lines and content body
      *
-     * @param input The stream of data from the request
+     * @param input The stream of data from the service
      */
     private void parseInputStream(InputStream input) {
         try {
@@ -30,7 +30,8 @@ public class ClientRequest {
 
             String line;
             while (!(line = buffer.readLine()).equals("")) {
-                System.out.println(line);
+                //System.out.println(line);
+                //ToDo: handle the rest of the request lines
             }
         } catch (IOException e) {
 
@@ -38,11 +39,11 @@ public class ClientRequest {
     }
 
     /**
-     * Parses the initial line for the request.  As per HTTP standards,
+     * Parses the initial line for the service.  As per HTTP standards,
      * the initial line should include a method name, local path of requested
      * item, and HTTP version.
      *
-     * @param line The initial(first) line of the HTTP request
+     * @param line The initial(first) line of the HTTP service
      */
     private void parseInitRequest(String line) {
         //ToDo: test if string is null
@@ -60,5 +61,17 @@ public class ClientRequest {
 
     private void parseHeaderRequest(String line) {
         //ToDo: handle headers
+    }
+
+    public HttpMethod getMethod() {
+        return method;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getVersion() {
+        return version;
     }
 }

@@ -1,11 +1,11 @@
 package server;
 
-import request.ClientRequest;
+import service.ClientRequest;
+import service.ServerResponse;
+import service.Service;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SingleThreadServer extends Server {
 
@@ -22,7 +22,9 @@ public class SingleThreadServer extends Server {
                 InputStream input = clientSocket.getInputStream();
                 ClientRequest request = new ClientRequest(input);
                 //clientSocket.getRemoteSocketAddress().toString();
-                //ToDo: log request
+                //ToDo: log service
+                Service service = new Service(getServerDir(), request, new ServerResponse());
+                service.evalRequest();
 
                 OutputStream output = clientSocket.getOutputStream();
                 output.write(("HTTP/1.1 200 OK\n\n<html>\n\t<h1>Return</h1></html>").getBytes());

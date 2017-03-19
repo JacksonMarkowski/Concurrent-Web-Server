@@ -1,19 +1,22 @@
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Server implements Runnable {
 
+    private String serverDir = "./def_dir";
     private int portNumber = 4000;
-    private AtomicBoolean isRunning;
+    private AtomicBoolean isRunning = new AtomicBoolean(true);
 
     private ServerSocket serverSocket;
 
     public Server() {
-        isRunning = new AtomicBoolean(true);
     }
 
     public abstract void run();
@@ -24,6 +27,10 @@ public abstract class Server implements Runnable {
 
     public boolean isServerRunning() {
         return isRunning.get();
+    }
+
+    public String getServerDir() {
+        return serverDir;
     }
 
     /**
@@ -38,12 +45,12 @@ public abstract class Server implements Runnable {
     }
 
     /**
-     * Accepts a client socket/request
+     * Accepts a client socket/service
      */
     protected Socket acceptClientSocket() {
         Socket clientSocket;
         try {
-            //ToDo: blocks on .accept() until a client makes a request, needs to unblock if the server is stopped
+            //ToDo: blocks on .accept() until a client makes a service, needs to unblock if the server is stopped
             clientSocket = serverSocket.accept();
         } catch (IOException e) {
             throw new RuntimeException(e);

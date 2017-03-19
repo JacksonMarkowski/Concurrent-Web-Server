@@ -29,6 +29,7 @@ public class ServerCtl {
         if (input.equals("quit") || input.equals("q")) {
             stopCtl = true;
         } else if (input.equals("single start")) {
+            System.out.println("Starting Single Threaded Server");
             server = new SingleThreadServer();
             new Thread(server).start();
         } else if (input.equals("multi start")) {
