@@ -22,6 +22,10 @@ public abstract class Server implements Runnable {
         this.isRunning.set(isRunning);
     }
 
+    public boolean isServerRunning() {
+        return isRunning.get();
+    }
+
     /**
      * Creates/opens the server socket on the specified port number
      */
@@ -46,5 +50,7 @@ public abstract class Server implements Runnable {
         }
         return clientSocket;
     }
+
+    //ToDo: force down methods that ctl can call to force server to close ports right away
 
 }

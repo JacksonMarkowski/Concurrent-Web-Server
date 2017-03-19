@@ -9,23 +9,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SingleThreadServer extends Server {
 
-    private int portNumber = 4000;
-    private AtomicBoolean isRunning;
-
-    private ServerSocket serverSocket;
-
     public SingleThreadServer() {
-        isRunning = new AtomicBoolean(true);
+
     }
 
     public void run() {
         createServerSocket();
 
-        while(isRunning.get()){
+        while(isServerRunning()){
             Socket clientSocket = acceptClientSocket();
             try {
                 InputStream input = clientSocket.getInputStream();
                 ClientRequest request = new ClientRequest(input);
+                //clientSocket.getRemoteSocketAddress().toString();
+                //ToDo: log request
 
                 OutputStream output = clientSocket.getOutputStream();
                 output.write(("HTTP/1.1 200 OK\n\n<html>\n\t<h1>Return</h1></html>").getBytes());
