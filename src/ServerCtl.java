@@ -1,10 +1,12 @@
+import server.*;
+
 import java.util.Scanner;
 
 public class ServerCtl {
 
     private boolean stopCtl = false;
 
-    private SingleThreadServer s;
+    private Server server;
 
     public ServerCtl() {
 
@@ -27,8 +29,8 @@ public class ServerCtl {
         if (input.equals("quit") || input.equals("q")) {
             stopCtl = true;
         } else if (input.equals("single start")) {
-            s = new SingleThreadServer();
-            new Thread(s).start();
+            server = new SingleThreadServer();
+            new Thread(server).start();
         } else if (input.equals("multi start")) {
             //ToDo: start up multithreaded server
         } else if (input.equals("pool start")) {
@@ -36,7 +38,7 @@ public class ServerCtl {
         } else if (input.equals("h")) {
             System.out.println("Usage: (single/multi/pool) (start/quit)");
         } else if (input.equals("stop")) {
-            s.setIsRunning(false);
+            server.setIsRunning(false);
         } else {
             System.out.println("ctl: type h for help");
         }
