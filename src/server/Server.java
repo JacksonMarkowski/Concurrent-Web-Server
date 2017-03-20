@@ -1,11 +1,8 @@
 package server;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Server implements Runnable {
@@ -42,6 +39,15 @@ public abstract class Server implements Runnable {
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected  void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+
+        }
+
     }
 
     /**

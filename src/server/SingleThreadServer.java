@@ -21,21 +21,27 @@ public class SingleThreadServer extends Server {
             try {
                 InputStream input = clientSocket.getInputStream();
                 ClientRequest request = new ClientRequest(input);
+                request.read(input);
                 //clientSocket.getRemoteSocketAddress().toString();
                 //ToDo: log service
-                Service service = new Service(getServerDir(), request, new ServerResponse());
+
+                ServerResponse response = new ServerResponse();
+                Service service = new Service(getServerDir(), request, response);
                 service.evalRequest();
 
                 OutputStream output = clientSocket.getOutputStream();
-                output.write(("HTTP/1.1 200 OK\n\n<html>\n\t<h1>Return</h1></html>").getBytes());
+                response.write(output);
+
                 output.close();
                 input.close();
-
+                clientSocket.close();
             } catch (IOException e) {
-
+                //ToDo: Handle exception from streams
             }
+
         }
-        System.out.println("stop");
-        //ToDo: shut down server, close sockets
+        System.out.println("Server Stopping");
+        closeServerSocket();
+        //ToDo: shut down server, close sockets, etc.
     }
 }
