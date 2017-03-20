@@ -5,7 +5,8 @@ public enum HttpStatusCode {
     SC_200(200, "OK"),
     SC_400(400, "Bad Request"),
     SC_404(404, "Not Found"),
-    SC_500(500, "Server Error");
+    SC_500(500, "Server Error"),
+    SC_501(501, "Not Implemented");
 
     private final int statusCode;
     private final String statusMsg;

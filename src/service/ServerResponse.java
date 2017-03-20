@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerResponse {
 
-    private String statusLine = "HTTP/1.1 400 Server Error";
+    private String statusLine = "HTTP/1.1 400 Bad Request";
     private List<String> header = new ArrayList<String>();
     private byte[] msgBody;
 
