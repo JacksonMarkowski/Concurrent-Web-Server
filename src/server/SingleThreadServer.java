@@ -9,9 +9,7 @@ import java.net.Socket;
 
 public class SingleThreadServer extends Server {
 
-    public SingleThreadServer() {
-
-    }
+    public SingleThreadServer() {}
 
     public void run() {
         createServerSocket();
@@ -20,7 +18,7 @@ public class SingleThreadServer extends Server {
             Socket clientSocket = acceptClientSocket();
             try {
                 InputStream input = clientSocket.getInputStream();
-                ClientRequest request = new ClientRequest(input);
+                ClientRequest request = new ClientRequest();
                 request.read(input);
                 //clientSocket.getRemoteSocketAddress().toString();
                 //ToDo: log service

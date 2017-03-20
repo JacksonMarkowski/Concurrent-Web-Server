@@ -8,7 +8,9 @@ public enum HttpMethod {
     PUT("PUT"),
     DELETE("DELETE"),
     CONNECT("CONNECT"),
-    OPTIONS("OPTIONS");
+    OPTIONS("OPTIONS"),
+    TRACE("TRACE"),
+    PATCH("PATCH");
 
     private final String method;
 

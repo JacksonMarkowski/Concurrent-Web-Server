@@ -13,9 +13,13 @@ public class ClientRequest {
     private String uri;
     private String version;
 
-    public ClientRequest(InputStream input) {
-    }
+    public ClientRequest() {}
 
+    /**
+     * Reads a stream to create the request.
+     *
+     * @param input Stream of data coming from the client socket.
+     */
     public void read(InputStream input) {
         parseInputStream(input);
     }
@@ -49,7 +53,6 @@ public class ClientRequest {
      * @param line The initial(first) line of the HTTP service
      */
     private void parseInitRequest(String line) {
-        System.out.println(line);
         //ToDo: test if string is null
         String[] lineSplit = line.split("\\s+");
         //ToDo: check if method,uri,version are all there
