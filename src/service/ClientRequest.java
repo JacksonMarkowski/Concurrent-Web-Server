@@ -20,8 +20,8 @@ public class ClientRequest {
      *
      * @param input Stream of data coming from the client socket.
      */
-    public void read(InputStream input) {
-        parseInputStream(input);
+    public void read(InputStream input) throws IOException {
+        if (!parseInputStream(input)) throw new IOException("Unable to read input stream");
     }
 
     /**
@@ -30,7 +30,7 @@ public class ClientRequest {
      *
      * @param input The stream of data from the service
      */
-    private void parseInputStream(InputStream input) {
+    private boolean parseInputStream(InputStream input) {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(input));
             parseInitRequest(buffer.readLine());
@@ -40,8 +40,11 @@ public class ClientRequest {
                 //System.out.println(line);
                 //ToDo: handle the rest of the request lines
             }
+            return true;
         } catch (IOException e) {
-
+            return false;
+        } catch (NullPointerException e) {
+            return false;
         }
     }
 
@@ -52,7 +55,7 @@ public class ClientRequest {
      *
      * @param line The initial(first) line of the HTTP service
      */
-    private void parseInitRequest(String line) {
+    private void parseInitRequest(String line) throws NullPointerException {
         //ToDo: test if string is null
         String[] lineSplit = line.split("\\s+");
         //ToDo: check if method,uri,version are all there
