@@ -17,4 +17,5 @@ public enum HttpMethod {
     HttpMethod(String method) {
         this.method = method;
     }
+
 }

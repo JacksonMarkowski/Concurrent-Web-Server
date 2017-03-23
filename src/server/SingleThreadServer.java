@@ -18,10 +18,9 @@ public class SingleThreadServer extends Server {
             Socket clientSocket = acceptClientSocket();
             try {
                 InputStream input = clientSocket.getInputStream();
-                ClientRequest request = new ClientRequest();
+                ClientRequest request = new ClientRequest(clientSocket.getRemoteSocketAddress());
                 request.read(input);
-                //clientSocket.getRemoteSocketAddress().toString();
-                //ToDo: log service
+                logRequest(request);
 
                 ServerResponse response = new ServerResponse();
                 Service service = new Service(getServerDir(), request, response);

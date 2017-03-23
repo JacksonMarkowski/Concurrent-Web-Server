@@ -6,14 +6,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketAddress;
 
 public class ClientRequest {
+
+    private SocketAddress address;
 
     private HttpMethod method;
     private String uri;
     private String version;
 
-    public ClientRequest() {}
+    public ClientRequest(SocketAddress address) {
+        this.address = address;
+    }
 
     /**
      * Reads a stream to create the request.
@@ -71,6 +76,11 @@ public class ClientRequest {
 
     private void parseHeaderRequest(String line) {
         //ToDo: handle headers
+    }
+
+    public String toString() {
+        String str = address.toString() + ", " + method.toString() + ", " + uri + ", " + version;
+        return str;
     }
 
     public HttpMethod getMethod() {
