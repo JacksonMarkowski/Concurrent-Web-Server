@@ -1,14 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Test website</title>
-    <link rel="icon"
-          type="image/gif"
-          href="favicon.ico">
-</head>
-<body>
-    <h1>Result -- Test</h1>
-    <a href="test2.html">Link to another html file</a>
-    <a href="nested_dir/test3.html">Link to another nested html file</a>
-</body>
+  <head>
+    <title>Web Server</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+
+  <body>
+    <div class="header">
+      <a href="/" class="null">
+        <h1>Concurrent Web Server</h1>
+      </a>
+    </div>
+
+    <ul>
+      <li>
+        <h2>Images</h2>
+        <a href="http://twistedsifter.com/2016/03/nasa-shares-best-pics-from-scott-kelly-year-in-space/">
+          <img class="indexImage" src="./res/NASA_Image.jpg">
+        </a>
+        <a href="http://popkey.co/m/RkMMl-nasa-space-science-dog-dogs-animal">
+          <img class="indexImage" src="./res/NASA_Dog.gif">
+        </a>
+      </li>
+      <li>
+        <h2>Video</h2>
+        <!--
+        <a href="https://www.nasa.gov/multimedia/downloadable-video-page/">
+          <video class="indexVideo" src="./res/NASA_SatelliteVideo.mp4" controls="controls">
+        </a>
+        -->
+      </li>
+      <li>
+        <h2>Javascript</h2>
+        <p>Add two numbers together</p>
+        <form name="addNumbersForm">
+          <input type="number" name="number1"/>
+          <p style="display:inline">+</p>
+          <input type="number" name="number2"/>
+          <input type="button" value="=" onClick="addNumbers()"/>
+          <p id="result" style="display:inline"></p>
+        </form>
+
+      </li>
+    </ul>
+  </body>
+
 </html>

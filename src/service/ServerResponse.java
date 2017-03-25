@@ -38,9 +38,9 @@ public class ServerResponse {
 
             //HTTP requires a blank line after the headers
             stream.writeBytes("\r\n");
-
             //Writes the message body
             if (msgBody != null) {
+                //ToDo: thread blocks and waits if client buffer is full, need to cancel at some point
                 stream.write(msgBody);
             }
 
