@@ -15,8 +15,8 @@ public class SingleThreadServer extends Server {
         createServerSocket();
 
         while(isServerRunning()){
-            Socket clientSocket = acceptClientSocket();
             try {
+                Socket clientSocket = acceptClientSocket();
                 InputStream input = clientSocket.getInputStream();
                 ClientRequest request = new ClientRequest(clientSocket.getRemoteSocketAddress());
                 request.read(input);
@@ -29,6 +29,7 @@ public class SingleThreadServer extends Server {
                 OutputStream output = clientSocket.getOutputStream();
                 response.write(output);
 
+                //ToDo: potentially move outside, that way if the server is shut down you can still close the streams and socket
                 output.close();
                 input.close();
                 clientSocket.close();
@@ -37,8 +38,5 @@ public class SingleThreadServer extends Server {
             }
 
         }
-        System.out.println("Server Stopping");
-        closeServerSocket();
-        //ToDo: shut down server, close sockets, etc.
     }
 }

@@ -6,7 +6,9 @@ public class ServerCtl {
 
     private boolean stopCtl = false;
 
+    private Thread serverThread;
     private Server server;
+    private boolean serverRunning = false;
 
     public ServerCtl() {
 
@@ -27,21 +29,42 @@ public class ServerCtl {
 
     private void evalUserInput(String input) {
         if (input.equals("quit") || input.equals("q")) {
+            attemptServerStop();
             stopCtl = true;
         } else if (input.equals("single start")) {
-            System.out.println("Starting Single Threaded Server");
-            server = new SingleThreadServer();
-            new Thread(server).start();
+            attemptServerStart(new SingleThreadServer());
         } else if (input.equals("multi start")) {
-            //ToDo: start up multithreaded server
+            //attemptServerStart(new MultiThreadServer());
         } else if (input.equals("pool start")) {
-            //ToDo: start up thread pool server
+            //attemptServerStart(new PoolThreadServer());
         } else if (input.equals("h")) {
             System.out.println("Usage: (single/multi/pool) (start/quit)");
         } else if (input.equals("stop")) {
-            server.setIsRunning(false);
+            attemptServerStop();
         } else {
             System.out.println("ctl: type h for help");
+        }
+    }
+
+    private void attemptServerStart(Server server) {
+        if (!serverRunning) {
+            serverRunning = true;
+            System.out.println("Starting " + server.getClass().getSimpleName());
+            this.server = server;
+            serverThread = new Thread(this.server);
+            serverThread.start();
+        } else {
+            System.out.println(server.getClass().getSimpleName() + " is currently running. You must stop it before starting a new server");
+        }
+    }
+
+    private void attemptServerStop() {
+        if (serverRunning) {
+            server.setIsRunning(false);
+            serverThread.interrupt();
+            serverRunning = false;
+        } else {
+            System.out.println("No server currently running");
         }
     }
 

@@ -2,9 +2,12 @@ package server;
 
 import service.ClientRequest;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -12,7 +15,7 @@ import java.util.logging.SimpleFormatter;
 
 public abstract class Server implements Runnable {
 
-    private String serverDir = "./def_dir";
+    private String serverDir = "./server_dir";
     private int portNumber = 4000;
     private AtomicBoolean isRunning = new AtomicBoolean(true);
 
@@ -28,7 +31,11 @@ public abstract class Server implements Runnable {
     public abstract void run();
 
     public void setIsRunning(boolean isRunning) {
+        if (this.isRunning.get() && !isRunning) {
+            closeServerSocket();
+        }
         this.isRunning.set(isRunning);
+
     }
 
     public boolean isServerRunning() {
@@ -56,19 +63,19 @@ public abstract class Server implements Runnable {
         } catch (IOException e) {
 
         }
-
+        System.out.println("Closed server socket");
     }
 
     /**
      * Accepts a client socket/service
      */
-    protected Socket acceptClientSocket() {
+    protected Socket acceptClientSocket() throws IOException{
         Socket clientSocket;
         try {
             //ToDo: blocks on .accept() until a client makes a service, needs to unblock if the server is stopped
             clientSocket = serverSocket.accept();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
         return clientSocket;
     }

@@ -38,7 +38,8 @@ public class Service {
                         byte[] data = Files.readAllBytes(file.toPath());
                         response.setMsgBody(data);
                         generateStatusHeader(HttpStatusCode.SC_200);
-                        generateContentHeader(uri);
+                        generateContentTypeHeader(uri);
+                        generateContentLengthHeader(data.length);
                     } catch (IOException e) {
                         generateStatusHeader(HttpStatusCode.SC_500);
                     }
@@ -52,7 +53,7 @@ public class Service {
                 file = new File(serverDir + uri);
                 if (file.exists()) {
                     generateStatusHeader(HttpStatusCode.SC_200);
-                    generateContentHeader(uri);
+                    generateContentTypeHeader(uri);
                 } else {
                     generateStatusHeader(HttpStatusCode.SC_404);
                 }
@@ -125,7 +126,7 @@ public class Service {
      *
      * @param uri The requested uri that will correspond to a file
      */
-    public void generateContentHeader(String uri) {
+    public void generateContentTypeHeader(String uri) {
         //ToDO: add other files
         String fileType = uri.substring(uri.indexOf(".") + 1);
         ContentType type = ContentType.valueOf(fileType.toLowerCase());
@@ -135,5 +136,10 @@ public class Service {
         } catch (Exception e) {
             //ToDo: handle error, cant find content type for uri
         }
+    }
+
+    public void generateContentLengthHeader(int length) {
+        String line = "Content-Length: " + length;
+        response.addHeaderLine(line);
     }
 }
