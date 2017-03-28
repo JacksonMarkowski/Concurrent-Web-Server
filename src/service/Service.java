@@ -31,32 +31,11 @@ public class Service {
         generateDateHeader();
         switch (request.getMethod()) {
             case GET:
-                String uri = updateUri(request.getUri());
-                File file = new File(serverDir + uri);
-                if (file.exists()) {
-                    try {
-                        byte[] data = Files.readAllBytes(file.toPath());
-                        response.setMsgBody(data);
-                        generateStatusHeader(HttpStatusCode.SC_200);
-                        generateContentTypeHeader(uri);
-                        generateContentLengthHeader(data.length);
-                    } catch (IOException e) {
-                        generateStatusHeader(HttpStatusCode.SC_500);
-                    }
-                } else {
-                    generateStatusHeader(HttpStatusCode.SC_404);
-                }
+                retrieveResource(true);
                 break;
 
             case HEAD:
-                uri = updateUri(request.getUri());
-                file = new File(serverDir + uri);
-                if (file.exists()) {
-                    generateStatusHeader(HttpStatusCode.SC_200);
-                    generateContentTypeHeader(uri);
-                } else {
-                    generateStatusHeader(HttpStatusCode.SC_404);
-                }
+                retrieveResource(false);
                 break;
 
             case POST:
@@ -86,11 +65,14 @@ public class Service {
             case PATCH:
                 generateStatusHeader(HttpStatusCode.SC_501);
                 break;
+
+            default:
+                generateStatusHeader(HttpStatusCode.SC_400);
+                break;
         }
     }
 
     public String updateUri(String uri) {
-
         //Add any other uri requests that need to be changed to correspond to their correct server file
         if (uri.equals("/")) {
             return "/index.html";
@@ -98,6 +80,27 @@ public class Service {
             return uri;
         }
     }
+
+    private void retrieveResource(boolean setMsgBody) {
+        String uri = updateUri(request.getUri());
+        File file = new File(serverDir + uri);
+        if (file.exists()) {
+            try {
+                byte[] data = Files.readAllBytes(file.toPath());
+                if (setMsgBody) {
+                    response.setMsgBody(data);
+                }
+                generateStatusHeader(HttpStatusCode.SC_200);
+                generateContentTypeHeader(uri);
+                generateContentLengthHeader(data.length);
+            } catch (IOException e) {
+                generateStatusHeader(HttpStatusCode.SC_500);
+            }
+        } else {
+            generateStatusHeader(HttpStatusCode.SC_404);
+        }
+    }
+
 
     /**
      * Creates the initial status line for the HTTP response.

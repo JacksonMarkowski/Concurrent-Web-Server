@@ -10,9 +10,7 @@ public class ServerCtl {
     private Server server;
     private boolean serverRunning = false;
 
-    public ServerCtl() {
-
-    }
+    public ServerCtl() {}
 
     private void readUserInput() {
         Scanner scanner = new Scanner(System.in);
@@ -29,8 +27,8 @@ public class ServerCtl {
 
     private void evalUserInput(String input) {
         if (input.equals("quit") || input.equals("q")) {
-            attemptServerStop();
             stopCtl = true;
+            attemptServerStop();
         } else if (input.equals("single start")) {
             attemptServerStart(new SingleThreadServer());
         } else if (input.equals("multi start")) {
@@ -61,9 +59,8 @@ public class ServerCtl {
     private void attemptServerStop() {
         if (serverRunning) {
             server.setIsRunning(false);
-            serverThread.interrupt();
             serverRunning = false;
-        } else {
+        } else if (!stopCtl){
             System.out.println("No server currently running");
         }
     }
