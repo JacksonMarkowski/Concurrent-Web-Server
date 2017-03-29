@@ -55,12 +55,12 @@ public abstract class Server implements Runnable {
     }
 
     protected  void closeServerSocket() {
+        System.out.println("Closing server socket");
         try {
             serverSocket.close();
         } catch (IOException e) {
 
         }
-        System.out.println("Closed server socket");
     }
 
     /**

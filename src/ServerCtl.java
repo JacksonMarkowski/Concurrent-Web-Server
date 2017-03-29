@@ -32,9 +32,9 @@ public class ServerCtl {
         } else if (input.equals("single start")) {
             attemptServerStart(new SingleThreadServer());
         } else if (input.equals("multi start")) {
-            //attemptServerStart(new MultiThreadServer());
+            attemptServerStart(new MultiThreadServer());
         } else if (input.equals("pool start")) {
-            //attemptServerStart(new PoolThreadServer());
+            attemptServerStart(new PoolThreadServer());
         } else if (input.equals("h")) {
             System.out.println("Usage: (single/multi/pool) (start/quit)");
         } else if (input.equals("stop")) {
