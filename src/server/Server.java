@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public abstract class Server implements Runnable {
 
@@ -18,12 +15,9 @@ public abstract class Server implements Runnable {
 
     private ServerSocket serverSocket;
 
-    private Logger logger = Logger.getLogger("Log");
-    FileHandler fileHandler;
+    private Log log = new Log();
 
-    public Server() {
-        createNewLog();
-    }
+    public Server() {}
 
     public abstract void run();
 
@@ -77,19 +71,8 @@ public abstract class Server implements Runnable {
         return clientSocket;
     }
 
-    private void createNewLog() {
-        try {
-            fileHandler = new FileHandler("./ServerLog.log");
-            logger.addHandler(fileHandler);
-            fileHandler.setFormatter(new SimpleFormatter());
-            logger.setUseParentHandlers(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void logRequest(ClientRequest request) {
-        logger.info(request.toString());
+        log.logString(request.toString());
     }
 
     //ToDo: force down methods that ctl can call to force server to close ports right away
