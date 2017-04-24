@@ -20,8 +20,12 @@ public class Log {
     private Logger logger = Logger.getLogger("Log");
     private FileHandler fileHandler;
 
+    private Thread logThread;
+
     public Log() {
         createNewLog();
+        createLogThread();
+        logThread.start();
     }
 
     private void createNewLog() {
@@ -34,6 +38,26 @@ public class Log {
             e.printStackTrace();
         }
     }
+
+    private void createLogThread() {
+        logThread = new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        logStringBlocking(deq());
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        };
+    }
+
+    private void logStringBlocking(String str) {
+        logger.info(str);
+    }
+
+
 
     protected void logString(String str) {
         Node node = new Node();
@@ -59,7 +83,7 @@ public class Log {
         }
     }
 
-    public void deq() throws Exception {
+    private String deq() throws Exception {
         while (true) {
             Node first = head.get();
             Node last = tail.get();
@@ -73,7 +97,7 @@ public class Log {
                 } else {
                     String str = next.str;
                     if (head.compareAndSet(first, next)) {
-                        logger.info(str);
+                        return str;
                     }
                 }
             }
